@@ -1,0 +1,72 @@
+---
+title: "Preliminary Body Composition Analysis in Guatemalan Adults"
+author: "Hannah Posluszny"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(knitr)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+# Introduction
+The Body Composition Calibration (BCC) Study is an ongoing study of adults aged 35–64 years in Guatemala City, Guatemala. Participants complete several body composition assessments, including dual-energy X-ray absorptiometry (DXA), bioelectrical impedance analysis (BIA), deuterium oxide dilution, and air displacement plethysmography (ADP). These methods differ in their underlying assumptions, equipment requirements, and feasibility for use in field-based research. DXA is being used as the reference method for evaluating estimates obtained from the other body composition methods.
+
+This report uses a fully synthetic dataset created for the DATA 550 final project. The dataset contains 80 fictional participants and reproduces the structure of the original BCC dataset without including actual participant measurements. All results are illustrative and should not be interpreted as findings from the BCC Study.
+
+The objectives of this preliminary analysis were to describe participant characteristics and body composition estimates by sex and to examine agreement between fat mass estimates obtained using BIA, deuterium oxide dilution, and ADP compared with DXA. Agreement between methods was evaluated using Bland–Altman analysis.
+
+# Data
+The analysis-ready data set was created from the ongoing BCC Study data-cleaning workflow and contains participant characteristics, anthropometric measurements, body composition estimates, and indicators identifying measurements that passed the current data-quality review.
+
+```{r load-data}
+bcc_analysis <- readRDS(
+  here::here(
+    "data",
+    "clean",
+    "BCC_analysis.rds"
+  )
+)
+
+dim(bcc_analysis)
+```
+
+# Participant Characteristics and Body Composition
+```{r table1, echo=FALSE}
+source(
+  here::here(
+    "code",
+    "01_table1.R"
+  )
+)
+
+table1
+```
+
+**Table 1** summarizes participant characteristics and body composition measurements by sex. The synthetic analytic sample includes `r sum(bcc_analysis$sex_label == "Men")` men and `r sum(bcc_analysis$sex_label == "Women")` women.. In addition to age and anthropometric characteristics, the table presents fat mass and fat-free mass estimates obtained using DXA, BIA, deuterium oxide dilution, and ADP. Means and standard deviations were calculated using available data for each measure; therefore, method-specific sample sizes may vary because of missing measurements or data-quality exclusions.
+
+# Agreement Between Body Composition Methods
+```{r figure1, echo=FALSE, fig.width=10, fig.height=5, fig.align='center'}
+source(
+  here::here(
+    "code",
+    "02_figure1_bland_altman.R"
+  )
+)
+
+figure1_fm_ba
+```
+
+**Figure 1.** Bland–Altman plots comparing fat mass estimates obtained using bioelectrical impedance analysis, deuterium oxide dilution, and air displacement plethysmography with DXA. Each point represents one participant. The solid horizontal line represents the mean difference between each comparison method and DXA, and the dashed lines represent the 95% limits of agreement. Positive differences indicate that the comparison method estimated greater fat mass than DXA, whereas negative differences indicate that the comparison method estimated lower fat mass than DXA.
+
+Because data collection and cleaning are ongoing, these analyses are intended to provide a preliminary description of the available data rather than final estimates of agreement between methods.
