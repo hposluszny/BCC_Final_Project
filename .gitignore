@@ -4,8 +4,9 @@
 .Ruserdata
 .Rproj.user/
 
-# Intermediate analysis datasets
-data/clean/
+# Keep local data out of Git except for the public synthetic input
+data/*
+!data/BCC_synthetic.csv
 
 # Generated output
 output/

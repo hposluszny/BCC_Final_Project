@@ -1,5 +1,3 @@
-setwd("C:/Users/hposlus/Desktop/OneDrive - Emory/R/BCC_Final_Project")
-
 # DATA 550 Final Project
 # Prepare synthetic BCC data for analysis
 
