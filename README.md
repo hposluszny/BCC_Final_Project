@@ -60,31 +60,24 @@ The code used to generate Figure 1 is located in:
 
 ## Reproducing the Analysis
 
-The project requires R, GNU Make, and the following R packages:
+The project requires R, GNU Make, and Pandoc. The lockfile records R 4.6.1. RStudio includes Pandoc. If the terminal cannot find it, add Pandoc to `PATH` or set `RSTUDIO_PANDOC` to the folder containing it.
 
-- tidyverse
-- here
-- gtsummary
-- gt
-- rmarkdown
-- knitr
+On Windows, use Git Bash with Chocolatey’s GNU Make. If `which make` shows that Git Bash is using Rtools Make, run this first:
+
+```bash
+export PATH="/c/ProgramData/chocolatey/bin:$PATH"
+```
 
 From the project directory, run:
 
 ```bash
+make install
 make
 ```
 
-The Makefile runs the analysis workflow:
+`make install` restores the package versions recorded in `renv.lock`. Run it again whenever you pull changes to `renv.lock` to synchronize your project library.
 
-1. Processes the synthetic dataset.
-2. Generates Table 1.
-3. Generates the Bland-Altman figure.
-4. Renders the final HTML report.
-
-The completed report is saved as:
-
-`output/BCC_Analysis.html`
+`make` generates `data/clean/BCC_analysis.rds` from the included synthetic CSV, then builds the table, figure, and final report. Open `output/BCC_Analysis.html` to view the report.
 
 ## Notes
 
